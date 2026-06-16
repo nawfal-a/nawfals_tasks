@@ -162,6 +162,22 @@ class TaskOperations {
     mutating: false,
   );
 
+  /// Get the default cancelling operations ignores targets for each operation.
+  static bool getDefaultCancellingOperationsIgnoresTargets(
+    TaskOperation operation,
+  ) {
+    switch (operation) {
+      case TaskOperations.update:
+        return true;
+      case TaskOperations.edit:
+        return true;
+      case TaskOperations.delete:
+        return true;
+      default:
+        return false;
+    }
+  }
+
   /// Get the default cancelling operations for each operation.
   static List<TaskOperation> getDefaultCancellingOperations(
     TaskOperation operation,

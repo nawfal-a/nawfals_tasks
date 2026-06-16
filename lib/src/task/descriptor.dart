@@ -25,13 +25,19 @@ class TaskDescriptor {
   ///
   /// [cancelingOperations]
   /// New [Task] with this operations will cancel this [Task] if other parameters are
-  /// matching, except for targets.
+  /// matching, except for targets which depends on [cancelingOperationsIgnoresTargets].
   /// If null, default operations will be used.
+  ///
+  /// If [cancelingOperationsIgnoresTargets] is True and the cancellation will happen
+  /// regardless of the [targets]. Otherwise, the [cancelingOperations] will not take
+  /// effect unless targets are matching.
+  /// If null, default value will be used.
   TaskDescriptor({
     required this.operation,
     required this.dataType,
     required this.dataUniqueIdentifiers,
     this.targets = const [],
+    bool? cancelingOperationsIgnoresTargets,
     List<TaskOperation>? cancelingOperations,
   }) {
     _hashCode = Object.hashAll([
@@ -42,10 +48,16 @@ class TaskDescriptor {
       ...List<String>.from(targets)..sort(),
     ]);
 
+    this.cancelingOperationsIgnoresTargets =
+        cancelingOperationsIgnoresTargets ??
+        TaskOperations.getDefaultCancellingOperationsIgnoresTargets(operation);
+
     this.cancelingOperations =
         cancelingOperations ??
         TaskOperations.getDefaultCancellingOperations(operation);
   }
+
+  late bool cancelingOperationsIgnoresTargets;
 
   late List<TaskOperation> cancelingOperations;
 
@@ -54,6 +66,7 @@ class TaskDescriptor {
     required Type dataType,
     required String dataUniqueIdentifier,
     List<String> targets = const [],
+    bool? cancelingOperationsIgnoresTargets,
     List<TaskOperation>? cancelingOperations,
   }) {
     return TaskDescriptor(
@@ -61,6 +74,7 @@ class TaskDescriptor {
       dataType: dataType,
       dataUniqueIdentifiers: [dataUniqueIdentifier],
       targets: targets,
+      cancelingOperationsIgnoresTargets: cancelingOperationsIgnoresTargets,
       cancelingOperations: cancelingOperations,
     );
   }

@@ -232,7 +232,9 @@ class Task<K, V> {
       return false;
     }
     if (descriptor._sameData(other.descriptor) &&
-        descriptor.cancelingOperations.contains(other.descriptor.operation)) {
+        other.descriptor.cancelingOperations.contains(descriptor.operation) &&
+        (other.descriptor.cancelingOperationsIgnoresTargets ||
+            descriptor.targets.toSet().containsAll(other.descriptor.targets))) {
       return true;
     }
     if (descriptor._shouldCancel(other.descriptor)) {

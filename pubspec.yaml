@@ -1,6 +1,6 @@
 name: nawfals_tasks
 description: "Globally listenable, Concurrent tasks."
-version: 1.0.2
+version: 1.0.1
 homepage:
 
 environment:

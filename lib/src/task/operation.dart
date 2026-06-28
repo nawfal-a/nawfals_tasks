@@ -99,6 +99,9 @@ class TaskOperations {
   /// Edit operation.
   static const TaskOperation edit = TaskOperation(name: "Edit", mutating: true);
 
+  /// Save operation.
+  static const TaskOperation save = TaskOperation(name: "Save", mutating: true);
+
   /// Delete operation.
   static const TaskOperation delete = TaskOperation(
     name: "Delete",
@@ -116,6 +119,9 @@ class TaskOperations {
     name: "Erase",
     mutating: true,
   );
+
+  /// Run operation.
+  static const TaskOperation run = TaskOperation(name: "Run", mutating: false);
 
   /// Start operation.
   static const TaskOperation start = TaskOperation(
@@ -141,6 +147,18 @@ class TaskOperations {
   /// Check operation.
   static const TaskOperation check = TaskOperation(
     name: "Check",
+    mutating: false,
+  );
+
+  /// Connect operation.
+  static const TaskOperation connect = TaskOperation(
+    name: "Connect",
+    mutating: false,
+  );
+
+  /// Disconnect operation.
+  static const TaskOperation disconnect = TaskOperation(
+    name: "Disconnect",
     mutating: false,
   );
 
@@ -217,6 +235,8 @@ class TaskOperations {
         return [TaskOperations.stop];
       case TaskOperations.stop:
         return [TaskOperations.start];
+      case TaskOperations.connect:
+        return [TaskOperations.disconnect];
       default:
         return [];
     }
